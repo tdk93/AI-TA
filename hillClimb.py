@@ -1,14 +1,29 @@
 import math
 
+cities = 0
 class Node():
-    def __init__(index, xc, yc):
+    def __init__(self,index, xc, yc):
         self.i = index
         self.x = xc
         self.y = yc
 
 
-def takeInput(fileName):
+def takeInput():
+    f = open("data/a280",'r').read().splitlines()
+    #print(f)
+    NodeDict = {}
+
+    for x in f:
+        m = x.split()
+        #print(m)
+        m = [int(y) for y in m]
+        #print (m[0])
+        #print(m[1])
+        #print(m[2])
+        NodeDict[m[0]] = Node(m[0], m[1], m[2])
     return
+
+takeInput()
 
 def hillClimbOneStep(tour):
     possible_neighbours = get2OptNeighbours(tour)
