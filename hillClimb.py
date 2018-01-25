@@ -107,6 +107,7 @@ def getRandomTour():
     return mm
 
 def starter():
+	print("hi I'm sagar's change")
 
     global cities
     takeInput()
