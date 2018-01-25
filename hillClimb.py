@@ -1,5 +1,6 @@
 import math
 from random import shuffle
+from draw import drawPath
 
 cities = 0
 
@@ -18,23 +19,26 @@ def takeInput():
 
     cities = len(f)
     print(cities)
-    for x in f:
-        m = x.split()
+    for a in f:
+        m = a.split()
         #print(m)
         print(m)
-        m = [float(y) for y in m]
-        m = [int(y) for y in m]
+        i = int(m[0])
+        x = float(m[1])
+        y = float(m[2])
+        #m = [float(y) for y in m]
+        #m = [int(y) for y in m]
         #print (m[0])
         #print(m[1])
         #print(m[2])
-        nodeDict[m[0]] = Node(m[0], m[1], m[2])
+        nodeDict[i] = Node(i, x, y)
     print(len(nodeDict))
     return
 
 step = 0
 def hillClimbOneStep(tour):
     global step
-    print(step)
+    #print(step)
     step += 1
     global cities
     possible_neighbours = get2OptNeighbours(tour)
@@ -107,14 +111,14 @@ def getRandomTour():
     return mm
 
 def starter():
-    print("hi I'm sagar's change")
     global cities
     takeInput()
-    print(cities)
+    #print(cities)
     tour = getRandomTour()
     
-    print(tour)
+    #print(tour)
     min_tour_length,min_tour = hillClimbFull(tour)
+    drawPath(nodeDict, min_tour, min_tour_length)
     print(min_tour_length)
     print(min_tour)
 starter()
