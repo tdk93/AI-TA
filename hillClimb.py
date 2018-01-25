@@ -21,6 +21,8 @@ def takeInput():
     for x in f:
         m = x.split()
         #print(m)
+        print(m)
+        m = [float(y) for y in m]
         m = [int(y) for y in m]
         #print (m[0])
         #print(m[1])
@@ -63,7 +65,7 @@ def hillClimbFull(initial_tour):
             min_tour_length = tour_length
             min_tour = tour
 
-    return min_tour_length
+    return min_tour_length, min_tour
 
 def get2OptNeighbours(order):
 
@@ -112,6 +114,7 @@ def starter():
     tour = getRandomTour()
     
     print(tour)
-    min_tour_length = hillClimbFull(tour)
+    min_tour_length,min_tour = hillClimbFull(tour)
     print(min_tour_length)
+    print(min_tour)
 starter()
