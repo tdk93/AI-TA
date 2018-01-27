@@ -15,7 +15,9 @@ class Node():
 
 def takeInput():
     global cities
-    f = open(sys.argv[1],'r').read().splitlines()
+    #f = open(sys.argv[1],'r').read().splitlines()
+
+    f = open("data/a280",'r').read().splitlines()
     #tprint(f)
 
     cities = len(f)
