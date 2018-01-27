@@ -1,3 +1,4 @@
+import sys
 import math
 from random import shuffle
 from draw import drawPath
@@ -14,7 +15,7 @@ class Node():
 
 def takeInput():
     global cities
-    f = open("data/a280",'r').read().splitlines()
+    f = open(sys.argv[1],'r').read().splitlines()
     #tprint(f)
 
     cities = len(f)
@@ -110,12 +111,31 @@ def getRandomTour():
     shuffle(mm)
     return mm
 
+def NearestNeighbourTour():
+    tour = []
+    all_cities = [x for x in range(1, cities + 1)]
+    city = all_cities[0]
+    tour.append(city)
+    all_cities.remove(city)
+    while len(all_cities) != 0:
+        min = 123324221
+        for i in all_cities:
+            distance = getDistance(nodeDict[city], nodeDict[i])
+            if distance < min:
+                min = distance
+                nearest_city = i
+        tour.append(nearest_city)
+        all_cities.remove(nearest_city)
+        city = nearest_city
+    return tour
+
 def starter():
     global cities
     takeInput()
     #print(cities)
     tour = getRandomTour()
-    
+    #min_tour = NearestNeighbourTour()
+    #min_tour_length = getTourLength(min_tour)
     #print(tour)
     min_tour_length,min_tour = hillClimbFull(tour)
     drawPath(nodeDict, min_tour, min_tour_length)
