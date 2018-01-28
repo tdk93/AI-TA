@@ -134,8 +134,9 @@ def starter():
     takeInput()
     #print(cities)
     tour = getRandomTour()
-    #min_tour = NearestNeighbourTour()
-    #min_tour_length = getTourLength(min_tour)
+    #tour = NearestNeighbourTour()
+    #min_tour_length = getTourLength(tour)
+    #min_tour = tour
     #print(tour)
     min_tour_length,min_tour = hillClimbFull(tour)
     drawPath(nodeDict, min_tour, min_tour_length)
