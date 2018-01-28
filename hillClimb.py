@@ -89,7 +89,7 @@ def takeInput():
     global cities
     #f = open(sys.argv[1],'r').read().splitlines()
 
-    f = open("data/a280",'r').read().splitlines()
+    f = open("data/st70.tsp",'r').read().splitlines()
     #tprint(f)
 
     cities = len(f)
@@ -212,8 +212,10 @@ def HillClimbWithInitialRandomTour(iterations):
     for i in range(iterations):
         tour = getRandomTour()
         min_tour_length,min_tour, tour_list = hillClimbFull(tour)
-        print(tour_list)
+        print("tour length for random")
+        print(min_tour_length)
         all_lists.append(tour_list)
+
     
     min = len(all_lists[0])
     for i in range(1, iterations):
@@ -227,13 +229,15 @@ def HillClimbWithInitialRandomTour(iterations):
         for j in range(iterations):
             avg = avg + all_lists[j][i]
         avg_list.append(avg/iterations)
-    print(avg_list)
+    #print(avg_list)
     graph_plot.plot(avg_list)
 
 
 def HillClimbWithInitialNearestNeighbourTour():
     tour = NearestNeighbourTour()
     min_tour_length,min_tour, tour_list = hillClimbFull(tour)
+    print("Nearest neighbour tour length:")
+    print(min_tour_length)
     graph_plot.plot(tour_list)
 
 def starter():
@@ -243,7 +247,6 @@ def starter():
 
     HillClimbWithInitialRandomTour(3)
     HillClimbWithInitialNearestNeighbourTour()
-    graph_plot.save("a.png")
     #drawPath(nodeDict, min_tour, min_tour_length)
 
 
@@ -254,10 +257,13 @@ def starter():
     #min_tour = NearestNeighbourTour()
     #min_tour_length = getTourLength(min_tour)
     #print(tour)
-    min_tour_length,min_tour = hillClimbFull(tour)
+    print("eucledian algo  tour length")
+    min_tour_length,min_tour, zz = hillClimbFull(tour)
+    graph_plot.plot(zz)
+    graph_plot.save("a.png")
     #drawPath(nodeDict, min_tour, min_tour_length)
     print(min_tour_length)
     print(min_tour)
 
 starter()
-#euclidpapa()
+#euclidpapa
