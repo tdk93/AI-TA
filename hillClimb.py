@@ -2,10 +2,10 @@ import sys
 import math
 from random import shuffle
 from draw import drawPath
+import graph_plot
 from collections import defaultdict
 
 cities = 0
-
 nodeDict = {}
 unionFind= [] 
 
@@ -93,11 +93,11 @@ def takeInput():
     #tprint(f)
 
     cities = len(f)
-    print(cities)
+    #print(cities)
     for a in f:
         m = a.split()
         #print(m)
-        print(m)
+        #print(m)
         i = int(m[0])
         x = float(m[1])
         y = float(m[2])
@@ -107,7 +107,7 @@ def takeInput():
         #print(m[1])
         #print(m[2])
         nodeDict[i] = Node(i, x, y)
-    print(len(nodeDict))
+    #print(len(nodeDict))
     return
 
 step = 0
@@ -132,20 +132,22 @@ def hillClimbOneStep(tour):
 def hillClimbFull(initial_tour):
 
     global cities
+    tour_list = []
     change = True
     min_tour_length = 00000000
     min_tour = 0
     tour = initial_tour
     while True:
         tour, tour_length,localMinima = hillClimbOneStep(tour)
+        tour_list.append(tour_length)
         if localMinima == True:
-            print("minimum tour found")
+            #print("minimum tour found")
             break
         else:
             min_tour_length = tour_length
             min_tour = tour
 
-    return min_tour_length, min_tour
+    return min_tour_length, min_tour, tour_list
 
 def get2OptNeighbours(order):
 
@@ -204,9 +206,47 @@ def NearestNeighbourTour():
         city = nearest_city
     return tour
 
+def HillClimbWithInitialRandomTour(iterations):
+    all_lists = []
+    avg_list = []
+    for i in range(iterations):
+        tour = getRandomTour()
+        min_tour_length,min_tour, tour_list = hillClimbFull(tour)
+        print(tour_list)
+        all_lists.append(tour_list)
+    
+    min = len(all_lists[0])
+    for i in range(1, iterations):
+        if (len(all_lists[i]) < min):
+            min = len(all_lists[i])
+    for i in range(3):
+        all_lists[i] = all_lists[i][0:min]
+
+    for i in range(min):
+        avg = 0
+        for j in range(iterations):
+            avg = avg + all_lists[j][i]
+        avg_list.append(avg/iterations)
+    print(avg_list)
+    graph_plot.plot(avg_list)
+
+
+def HillClimbWithInitialNearestNeighbourTour():
+    tour = NearestNeighbourTour()
+    min_tour_length,min_tour, tour_list = hillClimbFull(tour)
+    graph_plot.plot(tour_list)
+
 def starter():
     global cities
     takeInput()
+
+
+    HillClimbWithInitialRandomTour(3)
+    HillClimbWithInitialNearestNeighbourTour()
+    graph_plot.save("a.png")
+    #drawPath(nodeDict, min_tour, min_tour_length)
+
+
     #print(cities)
     #tour = getRandomTour()
     #print(tour)
@@ -218,5 +258,6 @@ def starter():
     #drawPath(nodeDict, min_tour, min_tour_length)
     print(min_tour_length)
     print(min_tour)
+
 starter()
 #euclidpapa()
