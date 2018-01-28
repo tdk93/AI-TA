@@ -20,10 +20,19 @@ def algorithm(cities):
 		for a in range(cities.shape[0]):
 
 			for b in range(a+1, cities.shape[0] - 1):
+                                print(a,b)
+
 
 				c =  choice( list( range(b+1, cities.shape[0]) ) )
+                                print(c)
 
 				a, b, c = choice( list( permutations( (a, b, c) ) ) )
+                                print(a)
+                                
+                                print(b)
+                                
+                                print(c)
+                                x = raw_input("enter the no")
 
 				new_order = order[:a] + order[a:b][::-1] + order[b:c][::-1] + order[c:]
 				new_length = calc_length(cities, new_order)

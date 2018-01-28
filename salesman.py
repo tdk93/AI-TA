@@ -1,6 +1,6 @@
 __author__ = "Rohan Pandit" 
 
-from swap2 import algorithm
+from swap3 import algorithm
 import numpy as np
 from time import time
 from Tkinter   import Tk, Canvas
