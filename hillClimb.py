@@ -2,16 +2,88 @@ import sys
 import math
 from random import shuffle
 from draw import drawPath
+from collections import defaultdict
 
 cities = 0
 
 nodeDict = {}
+unionFind= [] 
+
 class Node():
     def __init__(self,index, xc, yc):
         self.i = index
         self.x = xc
         self.y = yc
 
+def euclidpapa():
+    global unionFind
+    for x in range(cities+1):
+        unionFind.append(x)
+    print(unionFind)
+    print(unionFind[5])
+    
+    edges = defaultdict(dict) 
+    edgeList = []
+    for x in nodeDict:
+        for y in nodeDict:
+            #print("X is ")
+            #print(x)
+            if x != y:
+                edges[x][y] = getDistance(nodeDict[x],nodeDict[y]) 
+                edgeList.append([x,y,edges[x][y]])
+
+    #print(edgeList[0:10])
+    kruskal_set = []
+    edgeList.sort(key=lambda x:int(x[2]))
+    for x in edgeList:
+        if(find(x[0],x[1]) == False):
+            kruskal_set.append((x[0],x[1]))
+            union(x[0],x[1])
+
+    print(kruskal_set)
+    fin_ord = construct_graph(kruskal_set)
+    #fin_ord.append(1)
+    return fin_ord
+    print(fin_ord)
+
+def construct_graph(kruskal_set):
+    adj_list = defaultdict(list) 
+    for x in kruskal_set:
+        a,b = x
+        adj_list[a].append(b)
+        adj_list[b].append(a)
+    
+    return dfs(adj_list)
+
+def dfs(adj_list):
+    final_order = []
+    visited = {}
+    for x in range(1,cities+1):
+        visited[x] = False 
+    dfs_util(1, adj_list, visited, final_order)
+    return final_order
+
+
+def dfs_util(node_val, adj_list, visited, final_order):
+    visited[node_val] = True
+    final_order.append(node_val)
+    for x in adj_list[node_val]:
+        if (visited[x] == False):
+            dfs_util(x, adj_list, visited, final_order)
+
+
+
+
+def union(x,y):
+    k1 = unionFind[x]
+    k2 = unionFind[y]
+    for x in range(cities+1):
+        if unionFind[x] == k1:
+            unionFind[x] = k2
+
+
+def find(x,y):
+    return unionFind[x] == unionFind[y]
 
 def takeInput():
     global cities
@@ -45,6 +117,7 @@ def hillClimbOneStep(tour):
     step += 1
     global cities
     possible_neighbours = get2OptNeighbours(tour)
+    #possible_neighbours = get3OptNeighbours(tour)
     min_tour_length = getTourLength(tour)
     min_tour = 0
     localMinima = True 
@@ -135,12 +208,15 @@ def starter():
     global cities
     takeInput()
     #print(cities)
-    tour = getRandomTour()
+    #tour = getRandomTour()
+    #print(tour)
+    tour = euclidpapa()
     #min_tour = NearestNeighbourTour()
     #min_tour_length = getTourLength(min_tour)
     #print(tour)
     min_tour_length,min_tour = hillClimbFull(tour)
-    drawPath(nodeDict, min_tour, min_tour_length)
+    #drawPath(nodeDict, min_tour, min_tour_length)
     print(min_tour_length)
     print(min_tour)
 starter()
+#euclidpapa()
