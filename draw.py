@@ -1,5 +1,3 @@
-
-import numpy as np
 from time import time
 from tkinter   import *
 from random import randint
