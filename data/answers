@@ -1,0 +1,3 @@
+tsp instance    nearest_neighbour+2opt_hill_climb          random+2opt_hill_climb                optimal
+rat99                 1295                                                                       1211
+st70                  691                                   718                                   675  
