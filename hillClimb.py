@@ -40,11 +40,11 @@ def euclidpapa():
             kruskal_set.append((x[0],x[1]))
             union(x[0],x[1])
 
-    print(kruskal_set)
+    #print(kruskal_set)
     fin_ord = construct_graph(kruskal_set)
     #fin_ord.append(1)
     return fin_ord
-    print(fin_ord)
+    #print(fin_ord)
 
 def construct_graph(kruskal_set):
     adj_list = defaultdict(list) 
@@ -159,13 +159,20 @@ def get2OptNeighbours(order):
     final_neighbours = []
     for x in range(len(order)):
         for y in range(len(order)):
-            if x != y:
+            if x < y:
+                print(x)
+                print(y)
                 new_order = order[:x] + order[x:y][::-1] + order[y:]
+                print(new_order)
                 final_neighbours.append(new_order)
     return final_neighbours
 
-def get3OptNeigbours(s):
-    return
+def integerFromNode(order):
+    for x in order:
+        for z in x:
+            z = z.i
+    return order
+#print(get2OptNeighbours([1,2,3,4]))
 
 def getTourLength(tour):
 
@@ -249,14 +256,13 @@ def HillClimbWithInitialNearestNeighbourTour():
 
 def starter():
     global cities
+    
     takeInput()
+    integerFromNode(get2OptNeighbours(getRandomTour()))
 
-
-    HillClimbWithInitialRandomTour(3)
+    '''
+    #HillClimbWithInitialRandomTour(3)
     HillClimbWithInitialNearestNeighbourTour()
-    #drawPath(nodeDict, min_tour, min_tour_length)
-
-
     #print(cities)
     #tour = getRandomTour()
     #print(tour)
@@ -270,6 +276,9 @@ def starter():
     graph_plot.plot_euclidean(tour_list)
     graph_plot.save("a.png")
 
+    drawPath(nodeDict, min_tour, min_tour_length)
     print(min_tour_length)
+    print("done")
+    '''
     
 starter()

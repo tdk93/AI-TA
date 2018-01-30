@@ -30,5 +30,7 @@ def plot_nearest_neighbour(b):
 	z = handle3
 
 def save(filename):
-	plt.legend(handles=[x, y, z])
+	#plt.legend(handles=[x, y, z])
+
+	plt.legend(handles=[y, z])
 	plt.savefig(filename)
