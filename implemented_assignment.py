@@ -140,7 +140,7 @@ def hillClimbFull(initial_tour):
     print(tour_list)
     return tour_list, min_tour
 
-def NearestNeighbourTour(initial_city):
+def nearestNeighbourTour(initial_city):
     tour = []
     all_cities = [x for x in range(1, cities + 1)]
     city = int(intial_city)#all_cities[0]
@@ -157,6 +157,11 @@ def NearestNeighbourTour(initial_city):
         all_cities.remove(nearest_city)
         city = nearest_city
     return tour
+
+def hillClimbWithNearestNeighbour(initial_city):
+    tour = nearestNeighbourTour(initial_city)
+
+
 
 
 #---------------------------------------------------------------------------------------------------------------
