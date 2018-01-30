@@ -48,7 +48,7 @@ def generate2optNeighbours(tour):
 def generateRandomTour(r2seed):
     random.seed(r2seed)
     tour = [x for x in range(1,cities+1)]
-    tour = shuffle(tour)
+    shuffle(tour)
     return tour
 
 
@@ -59,9 +59,9 @@ def hillClimbWithRandomTour(tour):
         function. You will find 'task2.png' in current directory which shows hill climb algorithm performace
         that is hill climb iterations against tour length"""
 
-    list = []
+    tourLengthList = [1, 2, 3]
     "*** YOUR CODE HERE***"
-    generateGraph(list)
+    graph_plot.generateGraph(tourLengthlist)
 
 
 if __name__ == "__main__":
@@ -69,7 +69,7 @@ if __name__ == "__main__":
     parser.add_argument('--file', '-f', action='store', dest='file', help="Provide a file name (if file given then no need to provide city and random seed option that is -n and -r)")
     parser.add_argument('-n', action='store', type=int, dest='cities', help="Provide number of cities in a tour")
     parser.add_argument('-r1', action='store', type=int, dest='r1seed', default=1, help="random seed")
-    parser.add_argument('-r2', action='store', type=int, dest='r2seed', default=1 help="random seed")
+    parser.add_argument('-r2', action='store', type=int, dest='r2seed', default=1, help="random seed")
     parser.add_argument('--task', '-t', action='store', type=int, dest="task", help="task to execute")
     args = parser.parse_args()
 
@@ -88,9 +88,10 @@ if __name__ == "__main__":
 
     if args.task == 1:
         tour = generateRandomTour()
-        list = generate2optNeighbours(tour)
-        print(list)
+        print(tour)
+        tourlist = generate2optNeighbours(tour)
+        print(tourlist)
 
     if args.task == 2:
         tour = generateRandomTour()
-        hillClimbWithRandomTour(tour)
+        min_tour = hillClimbWithRandomTour(tour)
