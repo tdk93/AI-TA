@@ -160,6 +160,9 @@ def nearestNeighbourTour(initial_city):
 
 def hillClimbWithNearestNeighbour(initial_city):
     tour = nearestNeighbourTour(initial_city)
+    tour_length_list, tour_length = hillClimbFull(tour)
+    generateGraph(tour_length_list)
+
 
 
 
