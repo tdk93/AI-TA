@@ -7,7 +7,6 @@ from collections import defaultdict
 import argparse
 import random
 import itertools
-from dd import *
 
 
 cities = 0
@@ -158,16 +157,86 @@ def nearestNeighbourTour(initial_city):
         city = nearest_city
     return tour
 
+
+unionFind= [] 
+def eucledianTour():
+    global unionFind, cities
+
+    for x in range(cities+1):
+        unionFind.append(x)
+    
+    edges = defaultdict(dict) 
+    edgeList = []
+    for x in nodeDict:
+        for y in nodeDict:
+            if x != y:
+                edges[x][y] = getDistance(nodeDict[x],nodeDict[y]) 
+                edgeList.append([x,y,edges[x][y]])
+
+    kruskal_set = []
+    edgeList.sort(key=lambda x:int(x[2]))
+    for x in edgeList:
+        if(find(x[0],x[1]) == False):
+            kruskal_set.append((x[0],x[1]))
+            union(x[0],x[1])
+
+    fin_ord = construct_graph(kruskal_set)
+    return fin_ord
+
+def construct_graph(kruskal_set):
+    adj_list = defaultdict(list) 
+    for x in kruskal_set:
+        a,b = x
+        adj_list[a].append(b)
+        adj_list[b].append(a)
+    
+    return dfs(adj_list)
+
+def dfs(adj_list):
+    final_order = []
+    visited = {}
+    for x in range(1,cities+1):
+        visited[x] = False 
+    dfs_util(1, adj_list, visited, final_order)
+    return final_order
+
+
+def dfs_util(node_val, adj_list, visited, final_order):
+    visited[node_val] = True
+    final_order.append(node_val)
+    for x in adj_list[node_val]:
+        if (visited[x] == False):
+            dfs_util(x, adj_list, visited, final_order)
+
+
+
+
+def union(x,y):
+    k1 = unionFind[x]
+    k2 = unionFind[y]
+    for x in range(cities+1):
+        if unionFind[x] == k1:
+            unionFind[x] = k2
+
+
+def find(x,y):
+    return unionFind[x] == unionFind[y]
+
+
+ 
+
 def hillClimbWithNearestNeighbour(initial_city):
     tour = nearestNeighbourTour(initial_city)
     tour_length_list, tour_length = hillClimbFull(tour)
     generateGraph(tour_length_list)
 
+def hillClimbWithEucledianMST(initial_city):
+    tour = eucledianTour(initial_city)
+    tour_length_list, tour_length = hillClimbFull(tour)
+    generateGraph(tour_length_list)
 
 
 
-
-#---------------------------------------------------------------------------------------------------------------
 
 def hillClimbWithRandomTour(tour):
     """ Use the given tour as initial tour, Use your generate2optNeighbours() to generate
