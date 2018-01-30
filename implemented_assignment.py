@@ -7,18 +7,17 @@ from collections import defaultdict
 import argparse
 import random
 import itertools
+from dd import *
 
 
+cities = 0
+nodeDict = {}
 
 class Node():
     def __init__(self,index, xc, yc):
         self.i = index
         self.x = xc
         self.y = yc
-
-
-cities = 0
-nodeDict = {}
 
 
 def generateFile(cities, seed):
@@ -48,17 +47,99 @@ def takeInput(file):
 
 
 def generate2optNeighbours(tour):
+    global cities
     all_possible_neighbours = []
+    order = tour
+    for x in range(len(order)):
+        for y in range(len(order)):
+            if x < y:
+                #print(x)
+                #print(y)
+                new_order = order[:x] + order[x:y][::-1] + order[y:]
+                #print(new_order)
+                all_possible_neighbours.append(new_order)
+
     "*** YOUR CODE HERE ***"
     return all_possible_neighbours
 
+def print2optNeighbours(tourList):
+    pass
+
+
 
 def generateRandomTour(r2seed):
+    global cities
+    print(cities)
     random.seed(r2seed)
     tour = [x for x in range(1,cities+1)]
-    tour = shuffle(tour)
+    #print(tour)
+    shuffle(tour)
+    #print(tour)
     return tour
 
+#-------------------------------------------------------------------------------------#
+def getTourLength(tour):
+    global cities
+    if len(tour) == 0:
+        return 0
+
+    length = 0
+    if len(tour) == 2:
+        return getDistance(nodeDict[tour[0]],nodeDict[tour[1]])
+
+    for x in range(len(tour)-1):
+        length += getDistance(nodeDict[tour[x]],nodeDict[tour[x+1]]) 
+    
+    length += getDistance(nodeDict[tour[0]],nodeDict[tour[-1]])
+
+    return length
+
+def getDistance(n1, n2):
+    return math.sqrt((n1.x-n2.x)*(n1.x-n2.x) + (n1.y-n2.y)*(n1.y-n2.y))
+
+step = 0
+def hillClimbOneStep(tour):
+    global step
+    #print(step)
+    step += 1
+    global cities
+    possible_neighbours = generate2optNeighbours(tour)
+    print(possible_neighbours)
+    #possible_neighbours = get3OptNeighbours(tour)
+    min_tour_length = getTourLength(tour)
+    min_tour = 0
+    localMinima = True 
+    for x in possible_neighbours:
+        if getTourLength(x) < min_tour_length:
+            localMinima = False 
+            min_tour = x
+            min_tour_length = getTourLength(x)
+
+    print(localMinima)
+    return min_tour, min_tour_length, localMinima
+
+def hillClimbFull(initial_tour):
+
+    global cities
+    tour_list = []
+    change = True
+    min_tour_length = 00000000
+    min_tour = 0
+    tour = initial_tour
+    while True:
+        tour, tour_length,localMinima = hillClimbOneStep(tour)
+        tour_list.append(tour_length)
+        if localMinima == True:
+            #print("minimum tour found")
+            break
+        else:
+            min_tour_length = tour_length
+            min_tour = tour
+
+    print(tour_list)
+    return tour_list, min_tour
+
+#---------------------------------------------------------------------------------------------------------------
 
 def hillClimbWithRandomTour(tour):
     """ Use the given tour as initial tour, Use your generate2optNeighbours() to generate
@@ -67,9 +148,17 @@ def hillClimbWithRandomTour(tour):
         function. You will find 'task2.png' in current directory which shows hill climb algorithm performace
         that is hill climb iterations against tour length"""
 
-    list = []
+    
+    tourLengthList = []
+    tourLengthList, minTour = hillClimbFull(tour)
+    #print(minTour)
+    #print(tourLengthList)
+
+
     "*** YOUR CODE HERE***"
-    generateGraph(list)
+    '''
+    generateGraph(tourLengthlist)
+    '''
 
 
 if __name__ == "__main__":
@@ -77,7 +166,7 @@ if __name__ == "__main__":
     parser.add_argument('--file', '-f', action='store', dest='file', help="Provide a file name (if file given then no need to provide city and random seed option that is -n and -r)")
     parser.add_argument('-n', action='store', type=int, dest='cities', help="Provide number of cities in a tour")
     parser.add_argument('-r1', action='store', type=int, dest='r1seed', default=1, help="random seed")
-    parser.add_argument('-r2', action='store', type=int, dest='r2seed', default=1 help="random seed")
+    parser.add_argument('-r2', action='store', type=int, dest='r2seed', default=1, help="random seed")
     parser.add_argument('--task', '-t', action='store', type=int, dest="task", help="task to execute")
     args = parser.parse_args()
 
@@ -95,10 +184,10 @@ if __name__ == "__main__":
         sys.exit()
 
     if args.task == 1:
-        tour = generateRandomTour()
-        list = generate2optNeighbours(tour)
-        print(list)
+        tour = generateRandomTour(args.r2seed)
+        list1 = generate2optNeighbours(tour)
 
     if args.task == 2:
-        tour = generateRandomTour()
+        tour = generateRandomTour(args.r2seed)
         hillClimbWithRandomTour(tour)
+
