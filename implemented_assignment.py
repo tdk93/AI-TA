@@ -128,16 +128,36 @@ def hillClimbFull(initial_tour):
     tour = initial_tour
     while True:
         tour, tour_length,localMinima = hillClimbOneStep(tour)
-        tour_list.append(tour_length)
         if localMinima == True:
             #print("minimum tour found")
             break
         else:
+
+            tour_list.append(tour_length)
             min_tour_length = tour_length
             min_tour = tour
 
     print(tour_list)
     return tour_list, min_tour
+
+def NearestNeighbourTour(initial_city):
+    tour = []
+    all_cities = [x for x in range(1, cities + 1)]
+    city = int(intial_city)#all_cities[0]
+    tour.append(inital_city)
+    all_cities.remove(city)
+    while len(all_cities) != 0:
+        mini = 123324221
+        for i in all_cities:
+            distance = getDistance(nodeDict[city], nodeDict[i])
+            if distance < mini:
+                mini = distance
+                nearest_city = i
+        tour.append(nearest_city)
+        all_cities.remove(nearest_city)
+        city = nearest_city
+    return tour
+
 
 #---------------------------------------------------------------------------------------------------------------
 
