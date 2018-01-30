@@ -253,7 +253,9 @@ def hillClimbWithRandomTour(tour):
 
 
     "*** YOUR CODE HERE***"
-    generateGraph(tourLengthList)
+    '''
+    generateGraph(tourLengthlist)
+    '''
 
 
 if __name__ == "__main__":
@@ -263,7 +265,6 @@ if __name__ == "__main__":
     parser.add_argument('-r1', action='store', type=int, dest='r1seed', default=1, help="random seed")
     parser.add_argument('-r2', action='store', type=int, dest='r2seed', default=1, help="random seed")
     parser.add_argument('--task', '-t', action='store', type=int, dest="task", help="task to execute")
-    parser.add_argument('--initial_city', '-i', action='store', type=int, dest='initial_city', help="Initial city")
     args = parser.parse_args()
 
     if args.file:
@@ -286,7 +287,4 @@ if __name__ == "__main__":
     if args.task == 2:
         tour = generateRandomTour(args.r2seed)
         hillClimbWithRandomTour(tour)
-
-    if args.task == 3:
-        hillClimbWithNearestNeighbour(args.initial_city)
 
