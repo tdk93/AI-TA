@@ -5,6 +5,21 @@ x = 0
 y = 0
 z = 0
 
+def generateGraph(b):
+	a = list(range(len(b)))
+	plt.xlabel('hill climb iterations')
+	plt.ylabel('tour length')
+	plt.plot(a, b, label='random')
+	plt.savefig('task2.png')	
+
+def plot_random(b):
+	global x
+	a = list(range(len(b)))
+	plt.xlabel('hill climb iterations')
+	plt.ylabel('tour length')
+	handle1, = plt.plot(a, b, label='random')
+	x = handle1
+
 def plot_random(b):
 	global x
 	a = list(range(len(b)))
