@@ -97,9 +97,6 @@ def generate2optNeighbours(tour):
                 all_possible_neighbours.append(new_order)
 
     #------------Student code finished
-    #For testing
-    print(all_possible_neighbours)
-    ###
     return all_possible_neighbours
 
 def print2optNeighbours(tour):
@@ -109,14 +106,13 @@ def print2optNeighbours(tour):
 
 
 step = 0
+#########own code, util functions###########
 def hillClimbOneStep(tour):
     global step
     #print(step)
     step += 1
     global cities
     possible_neighbours = generate2optNeighbours(tour)
-    #print(possible_neighbours)
-    #possible_neighbours = get3OptNeighbours(tour)
     min_tour_length = getTourLength(tour)
     min_tour = 0
     localMinima = True 
@@ -129,27 +125,42 @@ def hillClimbOneStep(tour):
     #print(localMinima)
     return min_tour, min_tour_length, localMinima
 
+###################### own code, util function finished
+
 def hillClimbFull(initial_tour):
+    """ Use the given tour as initial tour, Use your generate2optNeighbours() to generate
+        all possible 2opt neighbours and apply hill climbing algorithm. Store the tour lengths
+        that you are getting after every hill climb step in the list tourLengthList.
+        Store the minimum tour found after the hill climbing algorithms in minTour.
+        Your code will return the tourLengthList and minTour.     
+        You will find 'task2.png' in current directory which shows hill climb algorithm performace
+        The tourLengthList will be used to generate a graph which plots tour lengths with each step.
+
+        that is hill climb iterations against tour length"""
 
     global cities
-    tour_list = []
-    change = True
-    min_tour_length = 00000000
-    min_tour = 0
+    tourLengthList = []
+    minTour = 0
+    #--------------Student code starts 
     tour = initial_tour
+    change = True
+
+    minTourLength = 00000000
     while True:
-        tour, tour_length,localMinima = hillClimbOneStep(tour)
+        tour, tourLength,localMinima = hillClimbOneStep(tour)
         if localMinima == True:
             #print("minimum tour found")
             break
         else:
 
-            tour_list.append(tour_length)
-            min_tour_length = tour_length
-            min_tour = tour
+            tourLengthList.append(tourLength)
+            minTourLength = tourLength
+            minTour = tour
 
     #print(tour_list)
-    return tour_list, min_tour
+    #----------------------student code finished
+    return tourLengthList, minTour
+
 
 def nearestNeighbourTour(initial_city):
     tour = []
@@ -249,13 +260,7 @@ def hillClimbWithEucledianMST(initial_city):
 
 
 def hillClimbWithRandomTour(tour):
-    """ Use the given tour as initial tour, Use your generate2optNeighbours() to generate
-        all possible 2opt neighbours and apply hill climbing algorithm. Store the tour lengths
-        that you are getting after every hill climb step in a list and pass it to the generateGraph(list)
-        function. You will find 'task2.png' in current directory which shows hill climb algorithm performace
-        that is hill climb iterations against tour length"""
-
-    
+        
     tourLengthList = []
     tourLengthList, minTour = hillClimbFull(tour)
 
