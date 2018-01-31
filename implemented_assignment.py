@@ -79,10 +79,13 @@ def getDistance(n1, n2):
 #######################################################################################################################
 
 def generate2optNeighbours(tour):
-    '''
-    '''
+
     global cities
     all_possible_neighbours = []
+
+
+    "*** YOUR CODE HERE ***"
+    #Student code start
     order = tour
     for x in range(len(order)):
         for y in range(len(order)):
@@ -93,7 +96,7 @@ def generate2optNeighbours(tour):
                 #print(new_order)
                 all_possible_neighbours.append(new_order)
 
-    "*** YOUR CODE HERE ***"
+    #Student code finished
     return all_possible_neighbours
 
 def print2optNeighbours(tour):
