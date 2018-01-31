@@ -283,12 +283,9 @@ def union(x,y):
 
 def find(x,y):
     return unionFind[x] == unionFind[y]
-<<<<<<< HEAD
 
-=======
 ''' Student Code finishes here '''
  
->>>>>>> upstream/master
 
 def hillClimbWithNearestNeighbour(initial_city):
     tour = nearestNeighbourTour(initial_city)
