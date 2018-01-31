@@ -105,8 +105,9 @@ def print2optNeighbours(tour):
 
 
 
-step = 0
 #########       own code, util functions###########
+
+step = 0
 def hillClimbOneStep(tour):
     global step
     #print(step)
@@ -163,6 +164,8 @@ def hillClimbFull(initial_tour):
 
 def nearestNeighbourTour(initial_city):
     tour = []
+
+    ''' Student Code here '''
     all_cities = [x for x in range(1, cities + 1)]
     city = int(initial_city)#all_cities[0]
     tour.append(initial_city)
@@ -177,11 +180,19 @@ def nearestNeighbourTour(initial_city):
         tour.append(nearest_city)
         all_cities.remove(nearest_city)
         city = nearest_city
+
+    ''' Student code finished'''
+
     return tour
 
 
+''' util code'''
 unionFind= [] 
+''' util code finish'''
+
 def eucledianTour(initial_city):
+    global cities
+    ''' Student code from here'''
     global unionFind, cities
 
     for x in range(cities+1):
@@ -203,8 +214,10 @@ def eucledianTour(initial_city):
             union(x[0],x[1])
 
     fin_ord = construct_graph(kruskal_set, initial_city)
+    ''' Student code finished here'''
     return fin_ord
 
+''' Student Code here '''
 def construct_graph(kruskal_set, initial_city):
     adj_list = defaultdict(list) 
     for x in kruskal_set:
@@ -243,7 +256,7 @@ def union(x,y):
 
 def find(x,y):
     return unionFind[x] == unionFind[y]
-
+''' Student Code finishes here '''
  
 
 def hillClimbWithNearestNeighbour(initial_city):
@@ -259,13 +272,8 @@ def hillClimbWithEucledianMST(initial_city):
 
 
 def hillClimbWithRandomTour(tour):
-        
     tourLengthList = []
     tourLengthList, minTour = hillClimbFull(tour)
-
-
-    "*** YOUR CODE HERE***"
-
     graph_plot.generateGraph(tourLengthList, "task2.png")
 
 
