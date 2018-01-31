@@ -8,7 +8,9 @@ import argparse
 import random
 import itertools
 
-
+#########################################################################################################
+################# Provided code #########################################################################
+#########################################################################################################
 cities = 0
 nodeDict = {}
 
@@ -73,9 +75,10 @@ def save2optNeighbours(tour):
         file.write("%s\n" % i)
 
 
+
 def generateRandomTour(r2seed):
     global cities
-    print(cities)
+    print("number of cities are ",cities)
     random.seed(r2seed)
     tour = [x for x in range(1,cities+1)]
     #print(tour)
@@ -83,7 +86,6 @@ def generateRandomTour(r2seed):
     #print(tour)
     return tour
 
-#-------------------------------------------------------------------------------------#
 def getTourLength(tour):
     global cities
     if len(tour) == 0:
@@ -103,6 +105,37 @@ def getTourLength(tour):
 def getDistance(n1, n2):
     return math.sqrt((n1.x-n2.x)*(n1.x-n2.x) + (n1.y-n2.y)*(n1.y-n2.y))
 
+#######################################################################################################################
+
+def generate2optNeighbours(tour):
+
+    global cities
+    all_possible_neighbours = []
+
+
+    "*** YOUR CODE HERE ***"
+    #------------Student code start
+    order = tour
+    for x in range(len(order)):
+        for y in range(len(order)):
+            if x < y:
+                #print(x)
+                #print(y)
+                new_order = order[:x] + order[x:y][::-1] + order[y:]
+                #print(new_order)
+                all_possible_neighbours.append(new_order)
+
+    #------------Student code finished
+    return all_possible_neighbours
+
+def print2optNeighbours(tour):
+    TwoOptNeighbourList = generate2optNeighbours(tour)
+
+
+
+
+#########       own code, util functions###########
+
 step = 0
 def hillClimbOneStep(tour):
     global step
@@ -110,8 +143,6 @@ def hillClimbOneStep(tour):
     step += 1
     global cities
     possible_neighbours = generate2optNeighbours(tour)
-    print(possible_neighbours)
-    #possible_neighbours = get3OptNeighbours(tour)
     min_tour_length = getTourLength(tour)
     min_tour = 0
     localMinima = True 
@@ -121,33 +152,49 @@ def hillClimbOneStep(tour):
             min_tour = x
             min_tour_length = getTourLength(x)
 
-    print(localMinima)
+    #print(localMinima)
     return min_tour, min_tour_length, localMinima
 
+###################### own code, util function finished
+
 def hillClimbFull(initial_tour):
+    """ Use the given tour as initial tour, Use your generate2optNeighbours() to generate
+        all possible 2opt neighbours and apply hill climbing algorithm. Store the tour lengths
+        that you are getting after every hill climb step in the list tourLengthList.
+        Store the minimum tour found after the hill climbing algorithms in minTour.
+        Your code will return the tourLengthList and minTour.     
+        You will find 'task2.png' in current directory which shows hill climb algorithm performace
+        The tourLengthList will be used to generate a graph which plots tour lengths with each step.
+        that is hill climb iterations against tour length"""
 
     global cities
-    tour_list = []
-    change = True
-    min_tour_length = 00000000
-    min_tour = 0
+    tourLengthList = []
+    minTour = 0
+    #--------------Student code starts 
     tour = initial_tour
+    change = True
+
+    minTourLength = 00000000
     while True:
-        tour, tour_length,localMinima = hillClimbOneStep(tour)
+        tour, tourLength,localMinima = hillClimbOneStep(tour)
         if localMinima == True:
             #print("minimum tour found")
             break
         else:
 
-            tour_list.append(tour_length)
-            min_tour_length = tour_length
-            min_tour = tour
+            tourLengthList.append(tourLength)
+            minTourLength = tourLength
+            minTour = tour
 
-    print(tour_list)
-    return tour_list, min_tour
+    #print(tour_list)
+    #----------------------student code finished
+    return tourLengthList, minTour
+
 
 def nearestNeighbourTour(initial_city):
     tour = []
+
+    ''' Student Code here '''
     all_cities = [x for x in range(1, cities + 1)]
     city = int(initial_city)#all_cities[0]
     tour.append(initial_city)
@@ -162,11 +209,19 @@ def nearestNeighbourTour(initial_city):
         tour.append(nearest_city)
         all_cities.remove(nearest_city)
         city = nearest_city
+
+    ''' Student code finished'''
+
     return tour
 
 
+''' util code'''
 unionFind= [] 
+''' util code finish'''
+
 def eucledianTour(initial_city):
+    global cities
+    ''' Student code from here'''
     global unionFind, cities
 
     for x in range(cities+1):
@@ -188,8 +243,10 @@ def eucledianTour(initial_city):
             union(x[0],x[1])
 
     fin_ord = construct_graph(kruskal_set, initial_city)
+    ''' Student code finished here'''
     return fin_ord
 
+''' Student Code here '''
 def construct_graph(kruskal_set, initial_city):
     adj_list = defaultdict(list) 
     for x in kruskal_set:
@@ -226,7 +283,12 @@ def union(x,y):
 
 def find(x,y):
     return unionFind[x] == unionFind[y]
+<<<<<<< HEAD
 
+=======
+''' Student Code finishes here '''
+ 
+>>>>>>> upstream/master
 
 def hillClimbWithNearestNeighbour(initial_city):
     tour = nearestNeighbourTour(initial_city)
@@ -242,21 +304,11 @@ def hillClimbWithEucledianMST(initial_city):
 
 
 def hillClimbWithRandomTour(tour):
-    """ Use the given tour as initial tour, Use your generate2optNeighbours() to generate
-        all possible 2opt neighbours and apply hill climbing algorithm. Store the tour lengths
-        that you are getting after every hill climb step in a list and pass it to the generateGraph(list)
-        function. You will find 'task2.png' in current directory which shows hill climb algorithm performace
-        that is hill climb iterations against tour length"""
-
-    
     tourLengthList = []
     tourLengthList, minTour = hillClimbFull(tour)
-    #print(minTour)
-    #print(tourLengthList)
-
-
-    "*** YOUR CODE HERE***"
     graph_plot.generateGraph(tourLengthList, "task2.png")
+
+
 
 
 if __name__ == "__main__":
@@ -295,4 +347,6 @@ if __name__ == "__main__":
 
     if args.task == 4:
         hillClimbWithEucledianMST(args.initial_city)
+
+
 
