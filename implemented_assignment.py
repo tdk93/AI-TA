@@ -151,8 +151,8 @@ def hillClimbFull(initial_tour):
 def nearestNeighbourTour(initial_city):
     tour = []
     all_cities = [x for x in range(1, cities + 1)]
-    city = int(intial_city)#all_cities[0]
-    tour.append(inital_city)
+    city = int(initial_city)#all_cities[0]
+    tour.append(initial_city)
     all_cities.remove(city)
     while len(all_cities) != 0:
         mini = 123324221
@@ -168,7 +168,7 @@ def nearestNeighbourTour(initial_city):
 
 
 unionFind= [] 
-def eucledianTour():
+def eucledianTour(initial_city):
     global unionFind, cities
 
     for x in range(cities+1):
@@ -189,24 +189,24 @@ def eucledianTour():
             kruskal_set.append((x[0],x[1]))
             union(x[0],x[1])
 
-    fin_ord = construct_graph(kruskal_set)
+    fin_ord = construct_graph(kruskal_set, initial_city)
     return fin_ord
 
-def construct_graph(kruskal_set):
+def construct_graph(kruskal_set, initial_city):
     adj_list = defaultdict(list) 
     for x in kruskal_set:
         a,b = x
         adj_list[a].append(b)
         adj_list[b].append(a)
     
-    return dfs(adj_list)
+    return dfs(adj_list, initial_city)
 
-def dfs(adj_list):
+def dfs(adj_list, initial_city):
     final_order = []
     visited = {}
     for x in range(1,cities+1):
         visited[x] = False 
-    dfs_util(1, adj_list, visited, final_order)
+    dfs_util(initial_city, adj_list, visited, final_order)
     return final_order
 
 
@@ -231,19 +231,17 @@ def union(x,y):
 def find(x,y):
     return unionFind[x] == unionFind[y]
 
-
  
 
 def hillClimbWithNearestNeighbour(initial_city):
     tour = nearestNeighbourTour(initial_city)
     tour_length_list, tour_length = hillClimbFull(tour)
-    generateGraph(tour_length_list)
+    graph_plot.generateGraph(tour_length_list, "task3.png")
 
 def hillClimbWithEucledianMST(initial_city):
     tour = eucledianTour(initial_city)
     tour_length_list, tour_length = hillClimbFull(tour)
-    generateGraph(tour_length_list)
-
+    graph_plot.generateGraph(tour_length_list, "task4.png")
 
 
 
@@ -260,7 +258,10 @@ def hillClimbWithRandomTour(tour):
 
 
     "*** YOUR CODE HERE***"
-    graph_plot.generateGraph(tourLengthList)
+
+    graph_plot.generateGraph(tourLengthList, "task2.png")
+
+
 
 
 if __name__ == "__main__":
@@ -292,4 +293,12 @@ if __name__ == "__main__":
     if args.task == 2:
         tour = generateRandomTour(args.r2seed)
         hillClimbWithRandomTour(tour)
+
+    if args.task == 3:
+        hillClimbWithNearestNeighbour(args.initial_city)
+
+    if args.task == 4:
+        hillClimbWithEucledianMST(args.initial_city)
+
+
 
