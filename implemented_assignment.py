@@ -61,9 +61,16 @@ def generate2optNeighbours(tour):
     "*** YOUR CODE HERE ***"
     return all_possible_neighbours
 
-def print2optNeighbours(tourList):
-    pass
 
+def save2optNeighbours(tour):
+    """ You can print the list on stdout to check if your getting correct 2opt-neighbours
+        or look into 2optNeighbours.txt file in your current directory"""
+    tourList = generate2optNeighbours(tour)
+    print(tourList)
+    filename = "2optNeighbours.txt"
+    file = open(filename, 'w')
+    for i in tourList:
+        file.write("%s\n" % i)
 
 
 def generateRandomTour(r2seed):
@@ -209,8 +216,6 @@ def dfs_util(node_val, adj_list, visited, final_order):
             dfs_util(x, adj_list, visited, final_order)
 
 
-
-
 def union(x,y):
     k1 = unionFind[x]
     k2 = unionFind[y]
@@ -222,12 +227,12 @@ def union(x,y):
 def find(x,y):
     return unionFind[x] == unionFind[y]
 
- 
 
 def hillClimbWithNearestNeighbour(initial_city):
     tour = nearestNeighbourTour(initial_city)
     tour_length_list, tour_length = hillClimbFull(tour)
     graph_plot.generateGraph(tour_length_list, "task3.png")
+
 
 def hillClimbWithEucledianMST(initial_city):
     tour = eucledianTour(initial_city)
@@ -261,13 +266,13 @@ if __name__ == "__main__":
     parser.add_argument('-r1', action='store', type=int, dest='r1seed', default=1, help="random seed")
     parser.add_argument('-r2', action='store', type=int, dest='r2seed', default=1, help="random seed")
     parser.add_argument('--task', '-t', action='store', type=int, dest="task", help="task to execute")
-    parser.add_argument('--initial_city', '-i', action='store', type=int, dest='initial_city', help="Initial city")
+    parser.add_argument('--initial_city', '-i', action='store', type=int, default=1, dest='initial_city', help="Initial city")
     args = parser.parse_args()
 
     if args.file:
         takeInput(args.file)
     elif args.cities:
-        file = generate_file(args.cities, args.r1seed)
+        file = generateFile(args.cities, args.r1seed)
         takeInput(file)
     else:
         print("Please provide either a file or combination of number of cities and random seed")
@@ -279,7 +284,7 @@ if __name__ == "__main__":
 
     if args.task == 1:
         tour = generateRandomTour(args.r2seed)
-        list1 = generate2optNeighbours(tour)
+        save2optNeighbours(tour)
 
     if args.task == 2:
         tour = generateRandomTour(args.r2seed)
