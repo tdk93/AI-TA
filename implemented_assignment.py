@@ -8,7 +8,9 @@ import argparse
 import random
 import itertools
 
-
+#########################################################################################################
+################# Provided code #########################################################################
+#########################################################################################################
 cities = 0
 nodeDict = {}
 
@@ -45,27 +47,6 @@ def takeInput(file):
     return
 
 
-def generate2optNeighbours(tour):
-    global cities
-    all_possible_neighbours = []
-    order = tour
-    for x in range(len(order)):
-        for y in range(len(order)):
-            if x < y:
-                #print(x)
-                #print(y)
-                new_order = order[:x] + order[x:y][::-1] + order[y:]
-                #print(new_order)
-                all_possible_neighbours.append(new_order)
-
-    "*** YOUR CODE HERE ***"
-    return all_possible_neighbours
-
-def print2optNeighbours(tourList):
-    pass
-
-
-
 def generateRandomTour(r2seed):
     global cities
     print(cities)
@@ -76,7 +57,6 @@ def generateRandomTour(r2seed):
     #print(tour)
     return tour
 
-#-------------------------------------------------------------------------------------#
 def getTourLength(tour):
     global cities
     if len(tour) == 0:
@@ -96,6 +76,35 @@ def getTourLength(tour):
 def getDistance(n1, n2):
     return math.sqrt((n1.x-n2.x)*(n1.x-n2.x) + (n1.y-n2.y)*(n1.y-n2.y))
 
+#######################################################################################################################
+
+def generate2optNeighbours(tour):
+
+    global cities
+    all_possible_neighbours = []
+
+
+    "*** YOUR CODE HERE ***"
+    #Student code start
+    order = tour
+    for x in range(len(order)):
+        for y in range(len(order)):
+            if x < y:
+                #print(x)
+                #print(y)
+                new_order = order[:x] + order[x:y][::-1] + order[y:]
+                #print(new_order)
+                all_possible_neighbours.append(new_order)
+
+    #Student code finished
+    return all_possible_neighbours
+
+def print2optNeighbours(tour):
+    2optNeighbourList = generate2optNeighbours(tour)
+
+
+
+
 step = 0
 def hillClimbOneStep(tour):
     global step
@@ -103,7 +112,7 @@ def hillClimbOneStep(tour):
     step += 1
     global cities
     possible_neighbours = generate2optNeighbours(tour)
-    print(possible_neighbours)
+    #print(possible_neighbours)
     #possible_neighbours = get3OptNeighbours(tour)
     min_tour_length = getTourLength(tour)
     min_tour = 0
@@ -114,7 +123,7 @@ def hillClimbOneStep(tour):
             min_tour = x
             min_tour_length = getTourLength(x)
 
-    print(localMinima)
+    #print(localMinima)
     return min_tour, min_tour_length, localMinima
 
 def hillClimbFull(initial_tour):
@@ -136,7 +145,7 @@ def hillClimbFull(initial_tour):
             min_tour_length = tour_length
             min_tour = tour
 
-    print(tour_list)
+    #print(tour_list)
     return tour_list, min_tour
 
 def nearestNeighbourTour(initial_city):
@@ -246,13 +255,12 @@ def hillClimbWithRandomTour(tour):
     
     tourLengthList = []
     tourLengthList, minTour = hillClimbFull(tour)
-    #print(minTour)
-    #print(tourLengthList)
 
 
     "*** YOUR CODE HERE***"
 
     graph_plot.generateGraph(tourLengthList, "task2.png")
+
 
 
 
