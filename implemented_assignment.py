@@ -85,7 +85,7 @@ def generate2optNeighbours(tour):
 
 
     "*** YOUR CODE HERE ***"
-    #Student code start
+    #------------Student code start
     order = tour
     for x in range(len(order)):
         for y in range(len(order)):
@@ -96,11 +96,14 @@ def generate2optNeighbours(tour):
                 #print(new_order)
                 all_possible_neighbours.append(new_order)
 
-    #Student code finished
+    #------------Student code finished
+    #For testing
+    print(all_possible_neighbours)
+    ###
     return all_possible_neighbours
 
 def print2optNeighbours(tour):
-    2optNeighbourList = generate2optNeighbours(tour)
+    TwoOptNeighbourList = generate2optNeighbours(tour)
 
 
 
