@@ -49,7 +49,7 @@ def takeInput(file):
 
 def generateRandomTour(r2seed):
     global cities
-    print(cities)
+    print("number of cities are ",cities)
     random.seed(r2seed)
     tour = [x for x in range(1,cities+1)]
     #print(tour)
@@ -106,7 +106,7 @@ def print2optNeighbours(tour):
 
 
 step = 0
-#########own code, util functions###########
+#########       own code, util functions###########
 def hillClimbOneStep(tour):
     global step
     #print(step)
@@ -135,7 +135,6 @@ def hillClimbFull(initial_tour):
         Your code will return the tourLengthList and minTour.     
         You will find 'task2.png' in current directory which shows hill climb algorithm performace
         The tourLengthList will be used to generate a graph which plots tour lengths with each step.
-
         that is hill climb iterations against tour length"""
 
     global cities
