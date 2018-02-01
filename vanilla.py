@@ -120,6 +120,24 @@ def generate2optNeighbours(tour):
     return all_possible_neighbours
 
 
+step = 0
+def hillClimbOneStep(tour):
+    global step
+    #print(step)
+    step += 1
+    global cities
+    possible_neighbours = generate2optNeighbours(tour)
+    min_tour_length = getTourLength(tour)
+    min_tour = 0
+    localMinima = True 
+    for x in possible_neighbours:
+        if getTourLength(x) < min_tour_length:
+            localMinima = False 
+            min_tour = x
+            min_tour_length = getTourLength(x)
+
+    #print(localMinima)
+    return min_tour, min_tour_length, localMinima
 
 def hillClimbFull(initial_tour):
     """ Use the given tour as initial tour, Use your generate2optNeighbours() to generate
@@ -136,6 +154,20 @@ def hillClimbFull(initial_tour):
     minTour = 0
 
     "*** YOUR CODE HERE ***"
+    tour = initial_tour
+    change = True
+
+    minTourLength = 00000000
+    while True:
+        tour, tourLength,localMinima = hillClimbOneStep(tour)
+        if localMinima == True:
+            break
+        else:
+
+            tourLengthList.append(tourLength)
+            minTourLength = tourLength
+            minTour = tour
+
 
     "*** --------------  ***"
 
@@ -146,7 +178,22 @@ def nearestNeighbourTour(initial_city):
     tour = []
 
     "*** YOUR CODE HERE ***"
+
    
+    all_cities = [x for x in range(1, cities + 1)]
+    city = int(initial_city)#all_cities[0]
+    tour.append(initial_city)
+    all_cities.remove(city)
+    while len(all_cities) != 0:
+        mini = 123324221
+        for i in all_cities:
+            distance = getDistance(nodeDict[city], nodeDict[i])
+            if distance < mini:
+                mini = distance
+                nearest_city = i
+        tour.append(nearest_city)
+        all_cities.remove(nearest_city)
+        city = nearest_city
 
 
     "*** --------------  ***"
@@ -155,12 +202,19 @@ def nearestNeighbourTour(initial_city):
 
 
 
-def eucledianTour(initial_city):
+def euclideanTour(initial_city):
     global unionFind, cities, nodeDict
     edgeList = []
 
     "*** YOUR CODE HERE ***"
    
+    edges = defaultdict(dict)
+    for x in nodeDict:
+        for y in nodeDict:
+            if x != y:
+                edges[x][y] = getDistance(nodeDict[x],nodeDict[y]) 
+                edgeList.append([x,y,edges[x][y]])
+    
 
 
 
@@ -188,10 +242,33 @@ def eucledianTour(initial_city):
 def finalOrder(mst, initial_city):
     "*** YOUR CODE HERE ***"
    
+    adj_list = defaultdict(list) 
+    for x in mst:
+        a,b = x
+        adj_list[a].append(b)
+        adj_list[b].append(a)
+    
+    return dfs(adj_list, initial_city)
+
+def dfs(adj_list, initial_city):
+    final_order = []
+    visited = {}
+    for x in range(1,cities+1):
+        visited[x] = False 
+    dfs_util(initial_city, adj_list, visited, final_order)
+    return final_order
 
 
+def dfs_util(node_val, adj_list, visited, final_order):
+    if(visited[node_val] == True):
+        return
+    visited[node_val] = True
+    final_order.append(node_val)
+    for x in adj_list[node_val]:
+        if (visited[x] == False):
+            dfs_util(x, adj_list, visited, final_order)
 
-    "*** --------------  ***"
+
 
 
 
@@ -205,8 +282,8 @@ def hillClimbWithNearestNeighbour(starting_city):
     return tourLengthList
     
 
-def hillClimbWithEucledianMST(initial_city):
-    tour = eucledianTour(initial_city)
+def hillClimbWithEuclideanMST(initial_city):
+    tour = euclideanTour(initial_city)
     tourLengthList, minTour = hillClimbFull(tour)
     return tourLengthList
 
@@ -229,8 +306,10 @@ if __name__ == "__main__":
 
     args = parser.parse_args()
 
-    if args.submit:
-        takeInput("data/st70.tsp");
+    if args.submit and args.task == 1:
+        takeInput("data/berlin10.tsp");
+    elif args.submit:
+        takeInput("data/st70.tsp")
     elif args.file:
         takeInput(args.file)
     elif args.cities:
@@ -262,7 +341,7 @@ if __name__ == "__main__":
 
 
         if args.task == 4:
-            tourLengthList = hillClimbWithEucledianMST(args.starting_city)
+            tourLengthList = hillClimbWithEuclideanMST(args.starting_city)
             graph_plot.generateGraph(tourLengthList, "task4.png")
 
     else:

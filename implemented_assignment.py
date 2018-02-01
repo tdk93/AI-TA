@@ -276,6 +276,9 @@ def dfs(adj_list, initial_city):
 
 
 def dfs_util(node_val, adj_list, visited, final_order):
+    if(visited[node_val] == True):
+        return
+
     visited[node_val] = True
     final_order.append(node_val)
     for x in adj_list[node_val]:
