@@ -48,23 +48,6 @@ def takeInput(file):
     return
 
 
-def generate2optNeighbours(tour):
-    global cities
-    all_possible_neighbours = []
-    order = tour
-    for x in range(len(order)):
-        for y in range(len(order)):
-            if x < y:
-                #print(x)
-                #print(y)
-                new_order = order[:x] + order[x:y][::-1] + order[y:]
-                #print(new_order)
-                all_possible_neighbours.append(new_order)
-
-    "*** YOUR CODE HERE ***"
-    return all_possible_neighbours
-
-
 def save2optNeighbours(tour):
     """ You can print the list on stdout to check if your getting correct 2opt-neighbours
         or look into 2optNeighbours.txt file in your current directory"""
@@ -106,57 +89,34 @@ def getTourLength(tour):
 def getDistance(n1, n2):
     return math.sqrt((n1.x-n2.x)*(n1.x-n2.x) + (n1.y-n2.y)*(n1.y-n2.y))
 
-#######################################################################################################################
+unionFind= [] 
+
+def union(x,y):
+    k1 = unionFind[x]
+    k2 = unionFind[y]
+    for x in range(cities+1):
+        if unionFind[x] == k1:
+            unionFind[x] = k2
+
+
+def find(x,y):
+    return unionFind[x] == unionFind[y]
+
+
+#############################################################################################
 
 def generate2optNeighbours(tour):
-
     global cities
     all_possible_neighbours = []
 
-
     "*** YOUR CODE HERE ***"
-    #------------Student code start
-    order = tour
-    for x in range(len(order)):
-        for y in range(len(order)):
-            if x < y:
-                #print(x)
-                #print(y)
-                new_order = order[:x] + order[x:y][::-1] + order[y:]
-                #print(new_order)
-                all_possible_neighbours.append(new_order)
+   
 
-    #------------Student code finished
+
+    "*** --------------  ***"
     return all_possible_neighbours
 
-def print2optNeighbours(tour):
-    TwoOptNeighbourList = generate2optNeighbours(tour)
 
-
-
-
-#########       own code, util functions###########
-
-step = 0
-def hillClimbOneStep(tour):
-    global step
-    #print(step)
-    step += 1
-    global cities
-    possible_neighbours = generate2optNeighbours(tour)
-    min_tour_length = getTourLength(tour)
-    min_tour = 0
-    localMinima = True 
-    for x in possible_neighbours:
-        if getTourLength(x) < min_tour_length:
-            localMinima = False 
-            min_tour = x
-            min_tour_length = getTourLength(x)
-
-    #print(localMinima)
-    return min_tour, min_tour_length, localMinima
-
-###################### own code, util function finished
 
 def hillClimbFull(initial_tour):
     """ Use the given tour as initial tour, Use your generate2optNeighbours() to generate
@@ -171,74 +131,42 @@ def hillClimbFull(initial_tour):
     global cities
     tourLengthList = []
     minTour = 0
-    #--------------Student code starts 
-    tour = initial_tour
-    change = True
 
-    minTourLength = 00000000
-    while True:
-        tour, tourLength,localMinima = hillClimbOneStep(tour)
-        if localMinima == True:
-            #print("minimum tour found")
-            break
-        else:
+    "*** YOUR CODE HERE ***"
+   
 
-            tourLengthList.append(tourLength)
-            minTourLength = tourLength
-            minTour = tour
 
-    #print(tour_list)
-    #----------------------student code finished
+    "*** --------------  ***"
+
     return tourLengthList, minTour
 
 
 def nearestNeighbourTour(initial_city):
     tour = []
 
-    ''' Student Code here '''
-    all_cities = [x for x in range(1, cities + 1)]
-    city = int(initial_city)#all_cities[0]
-    tour.append(initial_city)
-    all_cities.remove(city)
-    while len(all_cities) != 0:
-        mini = 123324221
-        for i in all_cities:
-            distance = getDistance(nodeDict[city], nodeDict[i])
-            if distance < mini:
-                mini = distance
-                nearest_city = i
-        tour.append(nearest_city)
-        all_cities.remove(nearest_city)
-        city = nearest_city
+    "*** YOUR CODE HERE ***"
+   
 
-    ''' Student code finished'''
+
+    "*** --------------  ***"
 
     return tour
 
 
-''' util code'''
-unionFind= [] 
-''' util code finish'''
 
 def eucledianTour(initial_city):
     global unionFind, cities, nodeDict
-
-    
-     
     edgeList = []
-   
-    ''' Student code from here'''
-    edges = defaultdict(dict)
-    for x in nodeDict:
-        for y in nodeDict:
-            if x != y:
-                edges[x][y] = getDistance(nodeDict[x],nodeDict[y]) 
-                edgeList.append([x,y,edges[x][y]])
-    
-    '''Student code finishes here'''
 
+    "*** YOUR CODE HERE ***"
+   
+
+
+
+    "*** --------------  ***"
 
     '''KRUSKAL's algorithm'''
+
     mst = []
     for x in range(cities+1):
         unionFind.append(x)
@@ -248,55 +176,28 @@ def eucledianTour(initial_city):
         if(find(x[0],x[1]) == False):
             mst.append((x[0],x[1]))
             union(x[0],x[1])
+
     '''FINISHES HERE'''
 
 
 
     fin_ord = finalOrder(mst, initial_city)
-    ''' Student code finished here'''
     return fin_ord
 
-''' Student Code here '''
 def finalOrder(mst, initial_city):
-    adj_list = defaultdict(list) 
-    for x in mst:
-        a,b = x
-        adj_list[a].append(b)
-        adj_list[b].append(a)
-    
-    return dfs(adj_list, initial_city)
-
-def dfs(adj_list, initial_city):
-    final_order = []
-    visited = {}
-    for x in range(1,cities+1):
-        visited[x] = False 
-    dfs_util(initial_city, adj_list, visited, final_order)
-    return final_order
+    "*** YOUR CODE HERE ***"
+   
 
 
-def dfs_util(node_val, adj_list, visited, final_order):
-    visited[node_val] = True
-    final_order.append(node_val)
-    for x in adj_list[node_val]:
-        if (visited[x] == False):
-            dfs_util(x, adj_list, visited, final_order)
-'''Student code finishes here'''
 
-def union(x,y):
-    k1 = unionFind[x]
-    k2 = unionFind[y]
-    for x in range(cities+1):
-        if unionFind[x] == k1:
-            unionFind[x] = k2
+    "*** --------------  ***"
 
 
-def find(x,y):
-    return unionFind[x] == unionFind[y]
 
-''' Student Code finishes here '''
  
-
+##################################################################################################
+####### DO NOT CHANGE THIS CODE ###########################################################################
+###########################################################################################################
 def hillClimbWithNearestNeighbour(starting_city):
     tour = nearestNeighbourTour(starting_city)
     tourLengthList, min_tour = hillClimbFull(tour)
@@ -315,7 +216,6 @@ def hillClimbWithRandomTour(tour):
     tourLengthList, minTour = hillClimbFull(tour)
     return tourLengthList
 
-####### DO NOT CHANGE THIS CODE
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
     parser.add_argument('--file', '-f', action='store', dest='file', help="Provide a file name (if file given then no need to provide city and random seed option that is -n and -r)")
@@ -387,4 +287,5 @@ if __name__ == "__main__":
         if args.task == 4:
             tourLengthList = hillClimbWithEucledianMST(args.starting_city)
             graph_plot.generateGraph(tourLengthList, "task4_submit.png")
-#######################
+###################################################################################
+
