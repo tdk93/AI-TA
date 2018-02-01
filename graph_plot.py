@@ -1,51 +1,32 @@
 import matplotlib.pyplot as plt
 import numpy as np
 
-x = 0
-y = 0
-z = 0
 
 def generateGraph(b, filename):
 	a = list(range(len(b)))
 	plt.xlabel('hill climb iterations')
 	plt.ylabel('tour length')
-	plt.plot(a, b, label='random')
-	plt.savefig(filename)	
+	plt.plot(a, b)
+	plt.savefig(filename)
 
-def plot_random(b):
-	global x
-	a = list(range(len(b)))
+
+def generateFinalGraph(data, filename, task):
 	plt.xlabel('hill climb iterations')
 	plt.ylabel('tour length')
-	handle1, = plt.plot(a, b, label='random')
-	x = handle1
+	handle = []
+	if task == 4:
+		plot_euclidean(data)
+	else:
+		if task == 2:
+			label_str = "rseed="
+		if task == 3:
+			label_str = "starting city="
 
-def plot_random(b):
-	global x
-	a = list(range(len(b)))
-	plt.xlabel('hill climb iterations')
-	plt.ylabel('tour length')
-	handle1, = plt.plot(a, b, label='random')
-	x = handle1
+		for i in range(len(data)):
+			a = list(range(len(data[i])))
+			h, = plt.plot(a, data[i], label=label_str + str(i+1))
+			handle.append(h)
 
-def plot_euclidean(b):
-	global y
-	a = list(range(len(b)))
-	plt.xlabel('hill climb iterations')
-	plt.ylabel('tour length')
-	handle2, = plt.plot(a, b, label='euclidean')
-	y = handle2
-
-def plot_nearest_neighbour(b):
-	global z
-	a = list(range(len(b)))
-	plt.xlabel('hill climb iterations')
-	plt.ylabel('tour length')
-	handle3, = plt.plot(a, b, label='nearest_neighbour')
-	z = handle3
-
-def save(filename):
-	#plt.legend(handles=[x, y, z])
-
-	plt.legend(handles=[y, z])
+		plt.legend(handles=handle)
+	
 	plt.savefig(filename)
