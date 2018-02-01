@@ -47,7 +47,7 @@ useful while implementing TSP heuristics algorithms. Use <code>python3 hillClimb
 
     <tr><td>--r2seed  </td><td>seed  to generate random tour which is used for task1 and task2 default randomseed2 value is 2
 </td></tr>
-    <tr><td>--starting_city  </td><td>starting city for nearest neighbour algorithm</td></tr>
+    <tr><td>--start_city  </td><td>starting city for nearest neighbour algorithm</td></tr>
     <tr><td>--submit </td><td>use this option to generate graphs which you need to submit </td></tr>
 </tbody></table>
 </td></tr></tbody></table>
@@ -165,22 +165,22 @@ Choice of initial tour before applying hill climbing can make a significant diff
 <h3>Task 3: Nearest Neighbour [2 marks]</h3> 
 
 <p>
-In this heuristic given a starting node a tour is constructed in the following manner, 
+In this heuristic given a starting node, a tour is constructed in the following manner, 
 You find the node closest to the starting node say B. Then you find the node closest to the node B, say C. This is continued until all the nodes are covered. The last edge of the tour is from the last node found to the starting node.</p>
 
 <p> 
 You will implement nearest neighbour heuristic for a given starting index/city in this task.
-nearestNeighbourTour (starting_city) 
-Returns the tour found out by applying the heuristic.
+nearestNeighbourTour (start_city) 
+returns the tour found out by applying the heuristic.
 </p>
 <p>
 Your function will be called within <code>hillClimbWithNearestNeighbour</code> which will generate the graph just like done for task 2.
 </p>
 
-Use command line option ‘--starting_city’ to give the starting city.
+Use command line option ‘--start_city’ to give the start city.
 <p>
 Command to test task 3 would be:
-<ui><li>python3 hillclimb.py  --file data/berlin52.tsp -start_city 1 --task 3</li></ui>
+<ui><li>python3 hillclimb.py  --file data/berlin52.tsp --start_city 1 --task 3</li></ui>
 
 <p>
 This should generate task3.png. You can compare this with the berlin_task3.png already present in your directory to verify your graph is coming correct.
@@ -212,8 +212,8 @@ For instance an edgeList might look like [ [1,2,2.4], [1,3,4.3] ]
 
 You could use global variables available to you which are nodeDict and cities. You could also use getDistance to get distance between two cities.  
 
-
-
+<br>
+<br>
 Using your edgeList set, Kruskal algorithm is applied to find a  Minimum Spanning Tree.
 
 The Minimum Spanning Tree is stored as a list of edges in a list mst . An ‘edge’ here is just [x,y] where x and y are two indices of nodes). This list mst is passed to task 3. .</p>
@@ -225,10 +225,10 @@ This function takes mst and initial_city as input. This initial_city comes from 
 
 
 
-Use command line option ‘--starting_city’ to give the starting city.
+Use command line option ‘--start_city’ to give the starting city.
 <p>
 Command to test task 4 would be:
-<ui><li>python3 hillclimb.py  --file data/berlin52.tsp -start_city 1 --task 4</li></ui>
+<ui><li>python3 hillclimb.py  --file data/berlin52.tsp --start_city 1 --task 4</li></ui>
 
 <p>
 This should generate task4.png. You can compare this with the berlin_task4.png already present in your directory to verify your graph is coming correct.
@@ -239,10 +239,12 @@ To submit your graph, run:
 </p>
 <p>
 After executing this command you should find  task4_submit.png file which shows the graph of ‘hill climb iterations vs tour length’
-This graph runs your hill climb on st70.tsp dataset and uses 5 different starting cities for Euclidean algorithm. The difference from task 3 is that initial tour is chosen by Euclidean approximation instead of random.The graph is plotted for each of this initialization
+This graph runs your hill climb on st70.tsp dataset. The difference from task 3 is that initial tour is chosen by Euclidean approximation instead of random and is run on one city only.
 </br>
 </p>
 
+<br>
+<b>Observation</b>: The instances folder in your directory contains examples for which Euclidean initialization works better and those for which Nearest Neighbour works better. This highlights a significant fact that heuristics have no guarrantees associated with them. 
 
 <h4>Function to visualise the tour</h4>
 You can use the ‘drawTour(tour)’ function to visualise the final tours you are getting after applying different algorithms like hillClimb, nearestNeighbour, euclidean.
