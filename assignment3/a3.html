@@ -15,8 +15,8 @@ CS 386: Lab Assignment 3
 </center>
 
 <p>The travelling salesperson problem (TSP) asks the following question: "Given a list of cities and the distances between each pair of cities, what is the shortest possible route that visits each city and returns to the origin city?" It is an NP-hard problem in combinatorial optimization, important in operations research and theoretical computer science.
-In this assignment youíll be implementing well known heuristics for TSP.
-The nodes will represent (x,y) coordinates and youíll be using euclidean distance as the weight of each edge
+In this assignment you‚Äôll be implementing well known heuristics for TSP.
+The nodes will represent (x,y) coordinates and you‚Äôll be using euclidean distance as the weight of each edge
 .</p>
 
 <br>
@@ -47,7 +47,7 @@ useful while implementing TSP heuristics algorithms. Use <code>python3 hillClimb
     </tr><tr><td>--file       </td><td>tsp instance file</td></tr>
 
     </tr><tr><td>--cities</td><td>number of cities</td></tr>
-    </tr><tr><td>--r1seed</td><td>seed to generate tsp instance file with number of cities provided in '--cities' option. (use --cities and --r1seed options only if ë--fileí option not used </td></tr>
+    </tr><tr><td>--r1seed</td><td>seed to generate tsp instance file with number of cities provided in '--cities' option. (use --cities and --r1seed options only if ‚Äò--file‚Äô option not used </td></tr>
 
     <tr><td>--r2seed  </td><td>seed  to generate random tour which is used for task1 and task2 default randomseed2 value is 2
 </td></tr>
@@ -59,24 +59,24 @@ useful while implementing TSP heuristics algorithms. Use <code>python3 hillClimb
 
 
 <p> In hillClimb.py, you will find node data structure
-The node is implemented as a class with itís index in the input file, x-coordinate and y-coordinate as itís member variables.
+The node is implemented as a class with it‚Äôs index in the input file, x-coordinate and y-coordinate as it‚Äôs member variables.
 
 
-A tour is defined as a permutation of indices of nodes a_1, Ö a_n (where a_i is the index of node in input file), say b_1,....b_n. 
+A tour is defined as a permutation of indices of nodes a_1, ‚Ä¶ a_n (where a_i is the index of node in input file), say b_1,....b_n. 
 It means the salesman starts travelling from b_1 then goes to b_2, and so on finally returning to b1 from b_n. So a tour is just a list of nodes.
 For eg. some tours for a city of 5 nodes are [ 1, 2, 3, 4, 5] ; [2, 1, 3, 5, 4] and so on. Any rotated version or mirror image of a tour is the same tour (e.g. 1,2,3,4,5 is the same as 2,3,4,5,1 which is the same as 3,4,5,1,2 and so on. Similarly 1,2,3,4,5 is same as 5,4,3,2,1)
 
 
 </p>
 <p>
-One of the heuristics is that you take an initial tour, find ìneighboursî of this tour using 2-opt neighbourhood and use hill-climbing to reach the best tour.
+One of the heuristics is that you take an initial tour, find ‚Äúneighbours‚Äù of this tour using 2-opt neighbourhood and use hill-climbing to reach the best tour.
 Two TSP tours are called 2-opt neighbours if one can be obtained from the other by deleting two edges and adding two edges.
-In the assignment, a node is a class which contains index of the node, itís x co-ordinate and y-coordinate.
+In the assignment, a node is a class which contains index of the node, it‚Äôs x co-ordinate and y-coordinate.
 The following functions and data structures are implemented for your convenience:
 
 <ul><li><b>Node</b>:Class which has three member variables index of city, x-coordinate and y-coordinate.</li>
   <li><b>cities</b>: denotes the number of cities in the graph</li>
-  <li><b>nodeDict</b>: This is a dictionary with itís key as index of node and the Node instance as itís value.</li>
+  <li><b>nodeDict</b>: This is a dictionary with it‚Äôs key as index of node and the Node instance as it‚Äôs value.</li>
   <li><b> getTourDistance</b>: This takes a tour as an argument and returns the length of the tour.</li>
   <li><b>getDistance</b>: This takes as input two nodes and returns the eucledian distance between them</li>
   <li><b>Tour</b>: a tour is just a list of indices (not Nodes) of cities.</li></ul>
@@ -96,7 +96,7 @@ For example 2-opt neighbour of
 <p>
 For a given tour, generate a list of all its 2-opt neighbours.
 
-Youíll be implementing the function 
+You‚Äôll be implementing the function 
 <code>generate2optNeighbours(tour)</code>
 Here tour is a list of indices of cities/nodes
 This should return a list of tours
@@ -104,13 +104,13 @@ This should return a list of tours
 For eg:
 generate2optNeigbours call on  [1, 2, 3, 4] should return  [ [2, 1, 3, 4], [3, 2, 1, 4], [1, 3, 2, 4]]</br>
 </br  >
-(The order of the tours doesnít matter. Also you donít need to worry about rotations of the same tour. If there are multiple tours which are the same but rotated versions of themselves, you donít have to eliminate them. For eg the above call might as well have returned ( [[4,1,3,2], [3,2,1,4], [2,1,3,4],[1,3,2,4]] where [4,1,3,2] is just the rotated version of [1,3,2,4])</br>
+(The order of the tours doesn‚Äôt matter. Also you don‚Äôt need to worry about rotations of the same tour. If there are multiple tours which are the same but rotated versions of themselves, you don‚Äôt have to eliminate them. For eg the above call might as well have returned ( [[4,1,3,2], [3,2,1,4], [2,1,3,4],[1,3,2,4]] where [4,1,3,2] is just the rotated version of [1,3,2,4])</br>
 
 
-<br>Note: Thereís a simple trick to generate 2-opt neighbours quickly. See if reversing some substring of the tour list gives you something useful.</br>
+<br>Note: There‚Äôs a simple trick to generate 2-opt neighbours quickly. See if reversing some substring of the tour list gives you something useful.</br>
 </p>
 <p>
-Make changes in <code>generate2optNeighbours(tour)</code> function in <code>hillClimb.py</code> provided to you. Please run code as
+Make changes in <code><b>generate2optNeighbours(tour)</b></code> function in <code>hillClimb.py</code> provided to you. Please run code as
 
 <code>python3 hillClimb.py -h</code> to get familiar with different command line options that you can use.
 </p>
@@ -126,18 +126,19 @@ Or some variation of this (rotations and mirror images of tours in this)</li></u
 You could generate your own instance and use for printing the 2-opt neighbours, using<br></br>
 <ui><li><code>python3 hillClimb.py --cities 'number of cities' --r1seed 'random seed for generating city distances' --r2seed 'random seed for tour generation' --task 1</code></li></ui><br></br>
 
-Note:random seed with ë--r1seedí option will be used to generate random coordinates for given number of cities and random seed with ë--r2seedí option will be used for creating random initial tour
+Note:random seed with ‚Äò--r1seed‚Äô option will be used to generate random coordinates for given number of cities and random seed with ‚Äò--r2seed‚Äô option will be used for creating random initial tour
 <br></br>
-E.g ëpython3 hillClimb.py --cities 10 --r1seed 2  --r2seed 3 --task 1í will generate ëtsp10í file for 10 cities with random coordinates in your current directory and will use it to generate 2opt neighbours. If you are using existing file then no need to pass ë--citiesí and ë--r1seedí option. Just use<br></br>
+E.g ‚Äòpython3 hillClimb.py --cities 10 --r1seed 2  --r2seed 3 --task 1‚Äô will generate ‚Äòtsp10‚Äô file for 10 cities with random coordinates in your current directory and will use it to generate 2opt neighbours. If you are using existing file then no need to pass ‚Äò--cities‚Äô and ‚Äò--r1seed‚Äô option. Just use<br></br>
 <ui><li><code>python3 hillClimb.py --file 'filename' --r2seed 'seed value' --task 1</code></li></ui><br></br>
 These command line options regarding generating new tsp file or using existing one are common for all tasks.
 </p>
 <h4> For submission</h4>
 <ui><li><code>python3 hillClimb.py --file data/tsp10.tsp --r2seed 'random seed for tour generation' --task 1</code></li></ui><br></br>
+Above command will generate <b><code>2optNeighbours.txt</code></b> in your directory which you need to submit for task 1.
 
 
 <h2>Task 2: Implement hill climbing [2 marks]</h2> 
-<p>Youíll be implementing the function:<code>hillClimbFull(initial_tour)</code></p>
+<p>You‚Äôll be implementing the function:<b><code>hillClimbFull(initial_tour)</code></b></p>
 
 For this function you have to return two things
 <ui><li>A list of tour lengths, one for each step for hill climb.until local minimum is found</li>
@@ -147,23 +148,23 @@ For this function you have to return two things
 [12, 11, 7.7, 5.6], [2,3,1,4]
 </p>
 <p>
-Note: It might be useful to implement a hillClimbUtil(tour) function which undertakes one step of hill climbing, that is it takes input as a tour, generates all itís neighbours and chooses the minimum length one.  You will use the function that you have implemented in task 1 to generate 2 opt neighbours.</p>
+Note: It might be useful to implement a <b><code>hillClimbUtil(tour)</code></b> function which undertakes one step of hill climbing, that is it takes input as a tour, generates all it‚Äôs neighbours and chooses the minimum length one.  You will use the function that you have implemented in task 1 to generate 2 opt neighbours.</p>
 
 
 <p>
 To test your code:
 <ui><li><code>python3 hillclimb.py --file data/berlin52.tsp --r2seed 1 --task 2 </code></li></ui><br></br>
-This should generate  task2.png. You can compare this with the berlin_task2.png already present in your directory to verify your graph is correct.</p>
+This should generate  <b>task2.png</b>. You can compare this with the <b>berlin_task2.png</b> already present in your directory to verify your graph is correct.</p>
 <h4> For submission</h4>
 <p>For your final graph, You should run:
 <code>python3 hillClimb.py --submit --task 2</code><br></br>
-This will generate task2_submit.png which is your final graph which will be evaluated. This graph runs your hill climb on st70.tsp dataset and uses 5 different tour initializations. The graph is plotted for each of this initialization.
+This will generate <b>task2_submit.png</b> which is your final graph which will be evaluated. This graph runs your hill climb on <b>st70.tsp</b> dataset and uses 5 different tour initializations. The graph is plotted for each of this initialization.
 
 </p>
 
 <h2>Part 2 </h2>
 <p>
-Choice of initial tour before applying hill climbing can make a significant difference in the final tour achieved by the hill climbing algorithm. In this part weíll investigate heuristics for choosing a ëgoodí initial tour. </p>
+Choice of initial tour before applying hill climbing can make a significant difference in the final tour achieved by the hill climbing algorithm. In this part we‚Äôll investigate heuristics for choosing a ‚Äògood‚Äô initial tour. </p>
 
 
 <h3>Task 3: Nearest Neighbour [2 marks]</h3> 
@@ -174,62 +175,71 @@ You find the node closest to the starting node say B. Then you find the node clo
 
 <p> 
 You will implement nearest neighbour heuristic for a given starting index/city in this task.
+
 nearestNeighbourTour (start_city) 
 returns the tour found out by applying the heuristic.
+
 </p>
 <p>
-Your function will be called within <code>hillClimbWithNearestNeighbour</code> which will generate the graph just like done for task 2.
+Your function will be called within <b><code>hillClimbWithNearestNeighbour</code></b> which will generate the graph just like done for task 2.
 </p>
 
-Use command line option ë--start_cityí to give the start city.
+Use command line option ‚Äò--start_city‚Äô to give the start city.
+
 <p>
 Command to test task 3 would be:
 <ui><li>python3 hillclimb.py  --file data/berlin52.tsp --start_city 1 --task 3</li></ui>
 
 <p>
-This should generate task3.png. You can compare this with the berlin_task3.png already present in your directory to verify your graph is coming correct.
+This should generate <b>task3.png</b>. You can compare this with the <b>berlin_task3.png</b> already present in your directory to verify your graph is coming correct.
 </p>
 
 To submit your graph, run:
 <ui><li><code>python3 hillClimb.py --submit --task 3</code></li></ui>
 </p>
 <p>
-After executing this command you should find  task3_submit.png file which shows the graph of ëhill climb iterations vs tour lengthí
-This graph runs your hill climb on st70.tsp dataset and uses 5 different starting cities for nearest neighbour algorithm. The difference from task 2 is that initial tour is chosen by nearest neighbour instead of random.The graph is plotted for each of this initialization
+After executing this command you should find <b>task3_submit.png</b> file which shows the graph of ‚Äòhill climb iterations vs tour length‚Äô
+This graph runs your hill climb on <b>st70.tsp</b> dataset and uses 5 different starting cities for nearest neighbour algorithm. The difference from task 2 is that initial tour is chosen by nearest neighbour instead of random.The graph is plotted for each of this initialization
 </br>
 </p>
 
 <br></br>
 <h3>Task 4: Euclidean Approximation [4 marks]</h3>
 <p>
-Hereís the process to generate the initial tour:
+Here‚Äôs the process to generate the initial tour:
 <ui>
 <li>Generate the complete graph for the nodes.</li>
-<li>Construct a minimum spanning tree for the graph using Primís or Kruskalís algorithm.</li>
+<li>Construct a minimum spanning tree for the graph using Prim‚Äôs or Kruskal‚Äôs algorithm.</li>
 <li>Do a preorder traversal starting from the initial node.</li>
 </ui>
 <p>
-Youíre supposed to solve part 1) and 3) of the above.</p>
+You‚Äôre supposed to solve part 1) and 3) of the above.</p>
 <p>
-For 1>Youíll be implementing part of euclideanTour function for part 1.  An empty list called edgeList is initialized for you at the start of euclideanTour. Youíll be adding all the ëedgesí of complete graph to the edgeList. Each element in edgeList (i.e. an ëedgeí) consists of a list [x,y,dist(x,y)] where x is the index of xth node, y is the index of yth node and dist(x,y) is the euclidean distance between x and y. 
-For instance an edgeList might look like [ [1,2,2.4], [1,3,4.3] ]
+For 1>You‚Äôll be implementing part of <b><code>euclideanTour </code></b> function for part 1.  An empty list called <b>edgeList</b> is initialized for you at the start of <b>euclideanTour</b> You‚Äôll be adding all the <b>edges</b> of complete graph to the edgeList. Each element in <b>edgeList</b> (i.e. an <b>edge</b>) consists of a list <b>[x,y,dist(x,y)]</b>  where <b>x</b> is the index of <b>xth node</b>, <b>y</b> is the index of <b>yth node</b> and <b>dist(x,y)</b> is the euclidean distance between <b>x</b> and <b>y</b> 
+For instance an <b>edgeList</b> might look like <b>[ [1,2,2.4], [1,3,4.3] ]</b>
 
-You could use global variables available to you which are nodeDict and cities. You could also use getDistance to get distance between two cities.  
+You could use global variables available to you which are <b><code>nodeDict</code></b> and cities. You could also use <b><code>getDistance</code></b> to get distance between two cities.  
+
+
+
+
+Using your <b>edgeList</b> set, Kruskal algorithm is applied to find a  Minimum Spanning Tree.
 
 <br>
 <br>
-Using your edgeList set, Kruskal algorithm is applied to find a  Minimum Spanning Tree.
 
-The Minimum Spanning Tree is stored as a list of edges in a list mst . An ëedgeí here is just [x,y] where x and y are two indices of nodes). This list mst is passed to task 3. .</p>
 
-<p>For 3) Youíll be implementing finalOrder function. 
-This function takes mst and initial_city as input. This initial_city comes from the euclideanTour function. finalOrder should return the preorder traversal starting from initial_city.  This preorder traversal is your final Euclidean Tour.
+The Minimum Spanning Tree is stored as a list of <b><code>edges</code></b> in a list <b><code>mst</code></b> . An <b><code>edge</code></b> here is just [x,y] where x and y are two indices of nodes). This list <b><code>mst</code></b> is passed to task 3. .</p>
+
+<p>For 3) You‚Äôll be implementing <b><code>finalOrder</code></b> function. 
+This function takes <code>mst</code> and <code>start_city</code> as input. This <code>start_city</code> comes from the <code>euclideanTour</code> function. <b><code>finalOrder</code></b> should return the preorder traversal starting from <b><code>start_city</code></b>. This preorder traversal is your final Euclidean Tour.
 </p>
-<p>Your function will be called in <code>hillClimbWithEuclideanMST</code> where the initial tour is the one obtained from euclideanTour.</p>
+<p>Your function will be called in <b><code>hillClimbWithEuclideanMST</code></b> where the initial tour is the one obtained from euclideanTour.</p>
 
 
 
-Use command line option ë--start_cityí to give the starting city.
+Use command line option ‚Äò--start_city‚Äô to give the start city.
+
 <p>
 Command to test task 4 would be:
 <ui><li>python3 hillclimb.py  --file data/berlin52.tsp --start_city 1 --task 4</li></ui>
@@ -242,7 +252,7 @@ To submit your graph, run:
 <ui><li><code>python3 hillClimb.py --submit --task 4</code></li></ui>
 </p>
 <p>
-After executing this command you should find  task4_submit.png file which shows the graph of ëhill climb iterations vs tour lengthí
+After executing this command you should find  task4_submit.png file which shows the graph of ‚Äòhill climb iterations vs tour length‚Äô
 This graph runs your hill climb on st70.tsp dataset. The difference from task 3 is that initial tour is chosen by Euclidean approximation instead of random and is run on one city only.
 </br>
 </p>
@@ -251,7 +261,7 @@ This graph runs your hill climb on st70.tsp dataset. The difference from task 3 
 <b>Observation</b>: The instances folder in your directory contains examples for which Euclidean initialization works better and those for which Nearest Neighbour works better. This highlights a significant fact that heuristics have no guarrantees associated with them. 
 
 <h4>Function to visualise the tour</h4>
-You can use the ëdrawTour(tour)í function to visualise the final tours you are getting after applying different algorithms like hillClimb, nearestNeighbour, euclidean.
+You can use the <code>drawTour(nodeDict, tour)</code> function to visualise the final tours you are getting after applying different algorithms like hillClimb, nearestNeighbour, euclidean.
 
 
 <h3>Submission</h3> 
