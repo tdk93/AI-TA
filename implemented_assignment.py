@@ -328,7 +328,9 @@ if __name__ == "__main__":
 
     args = parser.parse_args()
 
-    if args.submit:
+    if args.submit and args.task == 1:
+        takeInput("data/berlin10.tsp")
+    elif args.submit:
         takeInput("data/st70.tsp");
     elif args.file:
         takeInput(args.file)
@@ -343,7 +345,6 @@ if __name__ == "__main__":
         print("Please provide task number to execute")
         sys.exit()
 
-
     if args.task == 1:
         tour = generateRandomTour(args.r2seed)
         save2optNeighbours(tour)
@@ -355,12 +356,12 @@ if __name__ == "__main__":
             graph_plot.generateGraph(tourLengthList, "task2.png")
         
 
-        if args.task == 3:
+        elif args.task == 3:
             tourLengthList = hillClimbWithNearestNeighbour(args.starting_city)
             graph_plot.generateGraph(tourLengthList, "task3.png")
 
 
-        if args.task == 4:
+        elif args.task == 4:
             tourLengthList = hillClimbWithEucledianMST(args.starting_city)
             graph_plot.generateGraph(tourLengthList, "task4.png")
 
