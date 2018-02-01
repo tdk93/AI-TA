@@ -13,6 +13,7 @@ import itertools
 #########################################################################################################
 cities = 0
 nodeDict = {}
+numberOfRuns = 5
 
 class Node():
     def __init__(self,index, xc, yc):
@@ -287,38 +288,40 @@ def find(x,y):
 ''' Student Code finishes here '''
  
 
-def hillClimbWithNearestNeighbour(initial_city):
-    tour = nearestNeighbourTour(initial_city)
-    tour_length_list, tour_length = hillClimbFull(tour)
-    graph_plot.generateGraph(tour_length_list, "task3.png")
-
+def hillClimbWithNearestNeighbour(starting_city):
+    tour = nearestNeighbourTour(starting_city)
+    tourLengthList, min_tour = hillClimbFull(tour)
+    return tourLengthList
+    
 
 def hillClimbWithEucledianMST(initial_city):
     tour = eucledianTour(initial_city)
-    tour_length_list, tour_length = hillClimbFull(tour)
-    graph_plot.generateGraph(tour_length_list, "task4.png")
+    tourLengthList, minTour = hillClimbFull(tour)
+    return tourLengthList
 
 
 
 def hillClimbWithRandomTour(tour):
     tourLengthList = []
     tourLengthList, minTour = hillClimbFull(tour)
-    graph_plot.generateGraph(tourLengthList, "task2.png")
-
-
+    return tourLengthList
 
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
     parser.add_argument('--file', '-f', action='store', dest='file', help="Provide a file name (if file given then no need to provide city and random seed option that is -n and -r)")
-    parser.add_argument('-n', action='store', type=int, dest='cities', help="Provide number of cities in a tour")
+    parser.add_argument('--cities', '-n', action='store', type=int, dest='cities', help="Provide number of cities in a tour")
     parser.add_argument('-r1', action='store', type=int, dest='r1seed', default=1, help="random seed")
     parser.add_argument('-r2', action='store', type=int, dest='r2seed', default=1, help="random seed")
     parser.add_argument('--task', '-t', action='store', type=int, dest="task", help="task to execute")
-    parser.add_argument('--initial_city', '-i', action='store', type=int, default=1, dest='initial_city', help="Initial city")
+    parser.add_argument('--starting_city', '-i', action='store', type=int, default=1, dest='starting_city', help="Initial city")
+    parser.add_argument('--submit', action='store_true', help="final submission")
+
     args = parser.parse_args()
 
-    if args.file:
+    if args.submit:
+        takeInput("data/st70.tsp");
+    elif args.file:
         takeInput(args.file)
     elif args.cities:
         file = generateFile(args.cities, args.r1seed)
@@ -331,19 +334,48 @@ if __name__ == "__main__":
         print("Please provide task number to execute")
         sys.exit()
 
+
     if args.task == 1:
         tour = generateRandomTour(args.r2seed)
         save2optNeighbours(tour)
 
-    if args.task == 2:
-        tour = generateRandomTour(args.r2seed)
-        hillClimbWithRandomTour(tour)
+    if not args.submit:
+        if args.task == 2:
+            tour = generateRandomTour(args.r2seed)
+            tourLengthList = hillClimbWithRandomTour(tour)
+            graph_plot.generateGraph(tourLengthList, "task2.png")
+        
 
-    if args.task == 3:
-        hillClimbWithNearestNeighbour(args.initial_city)
-
-    if args.task == 4:
-        hillClimbWithEucledianMST(args.initial_city)
+        if args.task == 3:
+            tourLengthList = hillClimbWithNearestNeighbour(args.starting_city)
+            graph_plot.generateGraph(tourLengthList, "task3.png")
 
 
+        if args.task == 4:
+            tourLengthList = hillClimbWithEucledianMST(args.starting_city)
+            graph_plot.generateGraph(tourLengthList, "task4.png")
 
+    else:
+        if args.task == 2:
+            data = []
+            for i in range(1, numberOfRuns+1):
+                random_seed = i
+                tour = generateRandomTour(random_seed)
+                tourLengthList = hillClimbWithRandomTour(tour)
+                data.append(tourLengthList)
+
+            graph_plot.generateFinalGraph(data, "task2_submit.png", 2)
+
+        if args.task == 3:
+            data = []
+            for i in range(1, numberOfRuns+1):
+                starting_city = i
+                tourLengthList = hillClimbWithNearestNeighbour(starting_city)
+                data.append(tourLengthList)
+
+            graph_plot.generateFinalGraph(data, "task3_submit.png", 3)
+
+        if args.task == 4:
+            tourLengthList = hillClimbWithEucledianMST(args.starting_city)
+            graph_plot.generateGraph(tourLengthList, "task4_submit.png")
+        
